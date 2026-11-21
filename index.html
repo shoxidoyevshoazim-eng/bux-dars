@@ -484,6 +484,7 @@ h1.warm{text-align:center;color:#f0c35a;animation:pop .6s cubic-bezier(.3,1.7,.5
 .penov>div{text-align:center;max-width:420px}.penov .i{font-size:70px;color:#ff7a6b}.penov h1{color:#ff7a6b!important;font-size:38px!important}
 .penov .m{font:700 54px "Cinzel",serif;color:#ffd21f;margin:14px 0}.penov .s{color:#e9cfc8}
 .penw{margin:10px 0 4px;padding:8px 12px;border-radius:8px;background:rgba(160,40,25,.25);border:1px solid rgba(255,122,107,.45);color:#ffb4a8;font:600 13px var(--body);text-align:center}
+#roomlbl{display:none!important}
 /* boshqaruv paneli (oyna pastida, sahnadan tashqarida — kattalashmaydi) */
 #ctl{position:fixed;right:14px;bottom:14px;transform:translate(0,20px);display:flex;gap:8px;padding:8px;border-radius:16px;background:rgba(10,8,5,.82);
  border:1px solid rgba(240,195,90,.3);box-shadow:0 10px 40px rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:60;opacity:0;pointer-events:none;transition:opacity .35s,transform .35s}
@@ -515,6 +516,42 @@ body.host.idle,body.host.idle *{cursor:none!important}
 .hostbar button.ok .ic{color:#7fdc9a}.hostbar button.need{border-color:rgba(255,122,107,.55)}.hostbar button.need .ic{color:#ff7a6b}
 .hostbar kbd{font:700 14px "Cinzel",serif;color:#1a1205;background:#d6ad62;border-radius:5px;padding:2px 7px}
 .hostbar button:hover{border-color:#f0c35a}
+/* o'yin natijasi: taqdir belgilari */
+.rrow .fb{font-style:normal;font:600 26px var(--body);margin-left:14px;padding:3px 14px;border-radius:20px;vertical-align:middle}
+.rrow .fb .ic{width:22px;height:22px;color:inherit}
+.fate-up .fb{background:rgba(127,220,154,.15);color:#7fdc9a}.fate-mid .fb{background:rgba(240,195,90,.15);color:#f0c35a}.fate-down .fb{background:rgba(255,122,107,.15);color:#ff7a6b}
+.rrow .fc{display:flex;gap:16px;align-items:center;margin-top:8px;font:600 26px var(--body)}
+.rrow .fc i{font-style:normal;display:flex;align-items:center;gap:6px}.rrow .fc .ic{width:22px;height:22px;color:inherit}
+.rrow .fc .up{color:#7fdc9a}.rrow .fc .mid{color:#f0c35a}.rrow .fc .down{color:#ff7a6b}.rrow .fc small{color:var(--mut);font-size:22px}
+.scorehint .ic{width:24px;height:24px}.scorehint b{color:var(--gold)}
+.big2.fate-up .ic{color:#7fdc9a}.big2.fate-down .ic{color:#ff7a6b}
+/* blits: Kahoot uslubidagi alohida reyting ekrani (br, 2-qadam) */
+.sb{position:absolute;inset:0;padding:80px 300px 60px;background:radial-gradient(ellipse at 50% 30%,rgba(40,30,12,.97),rgba(3,2,1,.98) 70%);z-index:8;pointer-events:none}
+.sb.on{animation:sbIn .6s ease-out forwards}
+@keyframes sbIn{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
+.sb h2{font-size:110px!important;margin:6px 0 34px}
+.sbl .row{position:relative;display:grid;grid-template-columns:80px 96px 1fr 120px 90px 150px;align-items:center;gap:18px;height:132px;margin:0 0 18px;padding:0 34px;border-radius:14px;overflow:hidden;
+ background:rgba(255,240,200,.04);border:1.5px solid rgba(240,195,90,.28);opacity:0}
+.sb.on .sbl .row{animation:rowIn .6s cubic-bezier(.2,.9,.3,1.2) forwards}
+@keyframes rowIn{from{opacity:0;transform:translateX(-80px)}to{opacity:1;transform:none}}
+.sbl .row em{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,rgba(240,195,90,.22),rgba(240,195,90,.05));z-index:0;transition:width 1s}
+.sbl .row>*:not(em){position:relative;z-index:1}
+.sbl .row:first-child{border-color:#f0c35a;box-shadow:0 0 40px rgba(240,195,90,.3)}
+.sbl .row:first-child em{background:linear-gradient(90deg,rgba(240,195,90,.45),rgba(240,195,90,.1))}
+.sbl .r{font:700 64px "Cinzel",serif;color:#f0c35a;text-align:center}
+.sbl .avi{width:92px;height:92px}
+.sbl .n{font:700 60px "Cormorant Garamond",serif;color:#f7f0e2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sbl .g{font:700 34px "Manrope",sans-serif;color:#7fdc9a;text-align:right}
+.sbl .d i{font-style:normal;font:700 32px "Manrope",sans-serif}.sbl .d .up{color:#7fdc9a}.sbl .d .dn{color:#ff7a6b}
+.sbl b{font:700 62px "Cinzel",serif;color:#f0c35a;text-align:right}
+#scene.sbon .qt,#scene.sbon .ans,#scene.sbon .answered,#scene.sbon>.kick{opacity:0;transition:opacity .4s}
+/* blits: har savoldan keyin o'rinlar */
+.lead{position:absolute;left:120px;right:120px;top:400px;display:flex;gap:14px;justify-content:center}
+.lead div{display:flex;align-items:center;gap:10px;padding:8px 22px 8px 10px;border-radius:40px;background:rgba(14,11,7,.8);border:1px solid rgba(240,195,90,.3);font:600 28px var(--body);animation:pop .5s cubic-bezier(.3,1.6,.5,1) both}
+.lead div:first-child{border-color:#f0c35a;box-shadow:0 0 24px rgba(240,195,90,.35)}
+.lead .r{font:700 30px "Cinzel",serif;color:#f0c35a;width:34px;text-align:center}.lead .avi{width:46px;height:46px}.lead b{color:#f0c35a;font-weight:700}
+.lead .up{color:#7fdc9a;font-size:20px}.lead .dn{color:#ff7a6b;font-size:20px}
+.leadh{position:absolute;left:0;right:0;top:352px;text-align:center;font:600 24px "Cinzel",serif;letter-spacing:.18em;color:#d6ad62}
 /* blits belgilari */
 /* belgi — rangli muhr ichida, oq chiziq bilan */
 .an .sh{top:50%;transform:translateY(-50%);left:26px;width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:0;
@@ -843,10 +880,11 @@ const STEPS = [
  {t:"poll",sub:3},{t:"jurnal",sub:1},
  {t:"pr",i:0,sub:1},{t:"ledger",sub:4},{t:"pr",i:1,sub:1},{t:"pr",i:2,sub:1},{t:"pr",i:3,sub:1},{t:"pr",i:4,sub:1},{t:"pr",i:5,sub:1},
  {t:"time",sub:6},
- {t:"g_intro",sub:4},{t:"g_wheel"},{t:"g_crisis"},{t:"g_buy"},{t:"g_real",sub:5},{t:"g_res",sub:1},
+ {t:"g_intro",sub:4},{t:"g_wheel"},{t:"g_crisis"},{t:"g_buy"},{t:"g_real",sub:5},{t:"g_res",sub:1},{t:"final"},
  {t:"esda",sub:3},
- ...BQ.flatMap((_,i)=>[{t:"bq",i},{t:"br",i}]),
- {t:"final"},{t:"answer",sub:2},{t:"fonar",sub:1}
+ {t:"b_intro",sub:4},
+ ...BQ.flatMap((_,i)=>[{t:"bq",i},{t:"br",i,sub:1}]),
+ {t:"b_final"},{t:"answer",sub:2},{t:"fonar",sub:1}
 ];
 
 /* =====================================================================
@@ -1053,7 +1091,7 @@ function onSub(silent){ const S=STEPS[st.k], f=SUBS[S.t]; $$("#scene [data-s]").
 /* AVTO-OCHILISH: slayd ichidagi ma'lumotlar o'zi ketma-ket chiqadi (ms — oraliq).
    Qo'lda qoladi: vaqt chizig'i (time) va "Haqiqatda nima qilishdi" (g_real) — boshlovchi har birini tushuntiradi.
    Ovoz berish (poll): savol turadi, ovozlar yig'ilgach bir marta bosiladi — qolgani o'zi chiqadi. */
-const AUTO={g_intro:1700,jurnal:1800,pr:2200,ledger:1900,esda:1500,answer:2200,poll:2300,g_res:6000,prin:1600,law:1200,final:1500};
+const AUTO={br:4500,g_intro:1700,b_intro:1700,jurnal:1800,pr:2200,ledger:1900,esda:1500,answer:2200,poll:2300,prin:1600,law:1200,final:1500};
 let autoT=null, autoKey="", autoHold=-1; /* orqaga bosilganda shu slaydda avto to'xtaydi */
 function maxSub(S){ return S.t==="g_real"?usedCos().length-1:(S.sub||0); }
 function autoNext(){ const S=STEPS[st.k], key=st.k+"."+st.s;
@@ -1146,9 +1184,17 @@ const VIEWS={
      <div class="prs">${it.pr.map((p,j)=>`<div><i>${TIER[j]}</i><span>${p?"$"+p/1000+"K":"$0"}</span></div>`).join("")}</div>
      <div class="dt">${it.dt?`Dt: ${it.dt}`:"pul bankda qoladi"}</div></div>`).join("")}</div>`,
  g_real:()=>`<div class="kick">Haqiqatda nima qilishdi?</div><div id="realbox"></div>`,
- g_res:()=>`<div class="kick">2026-yilga sakrash</div><h2>Natijalar: <span class="acc" id="rt">eng yaxshi kompaniya</span></h2><div class="scorehint">Ball — tanlovingiz haqiqatga qanchalik yaqin: har modda aynan topilsa to'liq, bir pog'ona farq bo'lsa yarim ball</div><div class="rank" id="rank"></div>`,
+ g_res:()=>`<div class="kick">2026-yilga sakrash</div><h2>Natijalar: <span class="acc" id="rt">eng yaxshi kompaniya</span></h2><div class="scorehint">Har kim <b>o'z tanlovi</b> bilan alohida baholanadi: modda aynan topilsa to'liq, bir pog'ona farq — yarim ball. ${ICO("rocket")} 800+ gullab-yashnadi · ${ICO("anchor")} 550+ omon qoldi · ${ICO("sword")} undan past — bankrot</div><div class="rank" id="rank"></div>`,
  bq:S=>blitzView(S,false), br:S=>blitzView(S,true),
- final:()=>`<div style="text-align:center"><div class="kick">G'oliblar</div><h2>Eng yaxshi <span class="acc">bosh buxgalterlar</span></h2></div><div class="pod" id="pod"></div><div class="blz" id="blz"></div>`,
+ final:()=>`<div style="text-align:center"><div class="kick">O'yin g'oliblari</div><h2>Eng yaxshi <span class="acc">bosh buxgalterlar</span></h2></div><div class="pod" id="pod"></div>`,
+ b_final:()=>`<div style="text-align:center"><div class="kick">Blits test g'oliblari</div><h2>Eng <span class="acc">bilimdon</span> talabalar</h2></div><div class="pod" id="pod"></div>`,
+ b_intro:()=>`<div class="kick">Bilimni sinaymiz</div><h2>${ICO("sword")} Blits test <span class="acc">boshlanadi!</span></h2>
+   <div class="rules">
+    <div class="sx" data-s="1">${seal("10","sm")}<div><b>10 ta savol</b><span>Bugungi dars va kirish videosi bo'yicha</span></div></div>
+    <div class="sx" data-s="2">${seal("15","sm")}<div><b>15 soniya</b><span>Har savolga — telefoningizda to'rtta tugmadan birini bosing</span></div></div>
+    <div class="sx" data-s="3">${seal("+","sm")}<div><b>Tezroq — ko'proq ball</b><span>To'g'ri javob 200–250 ball. Har savoldan keyin reyting chiqadi</span></div></div>
+    <div class="sx" data-s="4">${seal("!","sm")}<div><b>Ilovadan chiqmang</b><span>AI yoki internetga o'tsangiz — −100 ball va ismingiz ekranda</span></div></div>
+   </div>`,
  thanks:()=>`<div style="text-align:center"><div class="kick">Xulosa</div><h2>Uchta asosiy fikr</h2></div><div class="words">
    <div class="card sx" data-s="1"><div class="n">1</div><div class="w">Ishonch</div><div class="s">Tamoyillar hisobotga ishonch beradi</div></div>
    <div class="card sx" data-s="2"><div class="n">D=K</div><div class="w">Ikki yoqlama yozuv</div><div class="s">Har operatsiya ikki tomonlama</div></div>
@@ -1236,9 +1282,9 @@ function skyAmbient(){ const sky=$("#sky"); if(!sky) return; const l=lantEl("amb
   l.style.cssText=`left:${80+Math.random()*1760}px;--sx:${Math.random()*80-40}px;animation-duration:${19+Math.random()*5}s`; sky.appendChild(l); setTimeout(()=>l.remove(),25000); }
 VIEWS.fonar=()=>`${bg("s_mayoq","hook")}<div class="shade full" style="background:linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.2) 45%,rgba(0,0,0,.7))"></div>
   <div id="sky"></div>
-  <div class="ftop" id="ftop"><div class="kick">Yakun</div><h2>Telefoningizga <span class="acc">qarang</span></h2><p>Konvertni oching · fonarni yuqoriga suring · <b class="acc">ismingizni osmonda toping</b></p></div>
+  <div class="ftop" id="ftop"><div class="kick">Siz uchun sovg'a</div><h2>Telefoningizga <span class="acc">qarang</span></h2><p>Konvertni oching · fonarni yuqoriga suring · <b class="acc">ismingizni osmonda toping</b></p></div>
   <div class="fcnt">Osmonda: <b id="fnum">0</b></div>
-  <div class="fbig" id="fbig"><div class="r">Rahmat!</div><div class="m">E'tiboringiz uchun rahmat! Bugungi kuningizga biroz yangilik va albatta quvonch bera olgan bo'lsak, xursandmiz.<br><b>Ketkazgan vaqtingizga rozi bo'ling.</b></div></div>`;
+  <div class="fbig" id="fbig"><div class="kick" style="text-align:center">Yakun</div><div class="r">Rahmat!</div><div class="m">E'tiboringiz uchun rahmat! Bugungi kuningizga biroz yangilik va albatta quvonch bera olgan bo'lsak, xursandmiz.<br><b>Ketkazgan vaqtingizga rozi bo'ling.</b></div></div>`;
 SUBS.fonar=(S,s)=>{ const first=!fz.on; fz.on=true;
   $("#ftop")&&$("#ftop").classList.toggle("off",s>=1); $("#fbig")&&$("#fbig").classList.toggle("in",s>=1); $("#stage").classList.toggle("rahmat",s>=1);
   /* "Rahmat!" chiqqach musiqa ~14 soniyada sekin so'nadi; orqaga qaytilsa yana tiklanadi */
@@ -1316,12 +1362,19 @@ LIVEV.g_buy=()=>{ const ps=plist(), d=ps.filter(p=>p.done).length, el=$("#dn"); 
 SUBS.g_real=(S,s)=>{ const cos=usedCos(), c=cos[Math.min(s,cos.length-1)], box=$("#realbox"); if(!box) return;
   box.innerHTML=`<div class="swap"><h2>${c.em} ${c.nm}, ${c.yr}</h2><div class="real"><div class="big">${c.em}</div><div><ul>${c.real.map(r=>`<li>${r}</li>`).join("")}</ul><div class="now">${ICO("rocket")} ${c.now}</div>
    <div class="ideal">${ITEMS.map(it=>`<span>${it.em} ${it.nm}: <b>${TIER[c.ideal[it.id]]}</b></span>`).join("")}</div></div></div></div>`; };
+/* Har bir bosh buxgalter O'Z tanlovi bilan alohida baholanadi (ko'pchilik ovozi emas).
+   Taqdir: ≥800 — kompaniya gullab-yashnadi; 550–799 — omon qoldi, qiynaldi; <550 — bankrot (tasodifiy tanlov ~550 beradi). */
+const FATE=v=>v>=800?{k:"up",t:"Gullab-yashnadi",ic:"rocket"}:v>=550?{k:"mid",t:"Omon qoldi, qiynaldi",ic:"anchor"}:{k:"down",t:"Bankrot bo'ldi",ic:"sword"};
+const exactN=p=>{ const c=COMPANIES.find(c=>c.id===p.co); if(!c||!p.buy) return 0; return ITEMS.filter(it=>p.buy[it.id]===c.ideal[it.id]).length; };
 SUBS.g_res=(S,s)=>{ const ps=plist(), box=$("#rank"); if(!box) return;
-  if(s===0){ $("#rt").textContent="eng yaxshi kompaniya"; const rows=usedCos().map(c=>{ const ms=ps.filter(p=>p.co===c.id); const avg=ms.length?Math.round(ms.reduce((a,p)=>a+gameScore(p),0)/ms.length):0; return {c,avg,n:ms.length}; }).sort((a,b)=>b.avg-a.avg);
-    box.innerHTML=rows.map((r,i)=>`<div class="rrow card" style="animation-delay:${i*.15}s"><span class="acc">${i+1}</span><span style="font-size:60px">${r.c.em}</span><span>${r.c.nm} <small style="color:var(--mut);font-size:26px">(${r.n} kishi, o'rtacha)</small><div class="bar"><i style="width:${r.avg/10}%"></i></div></span><span class="sc">${r.avg}</span></div>`).join(""); }
-  else { $("#rt").textContent="eng yaxshi bosh buxgalterlar"; const rows=ps.map(p=>({p,v:gameScore(p)})).sort((a,b)=>b.v-a.v).slice(0,6);
-    box.innerHTML=rows.map((r,i)=>{ const c=COMPANIES.find(c=>c.id===r.p.co)||{em:"❔"}; return `<div class="rrow card" style="animation-delay:${i*.12}s"><span class="acc">${i+1}</span>${AVI(r.p.av)}<span>${esc(r.p.nm)} <small style="font-size:30px">${c.em}</small><div class="bar"><i style="width:${r.v/10}%"></i></div></span><span class="sc">${r.v}</span></div>`; }).join(""); } };
+  if(s===0){ $("#rt").textContent="kompaniyalar taqdiri"; const rows=usedCos().map(c=>{ const ms=ps.filter(p=>p.co===c.id); const avg=ms.length?Math.round(ms.reduce((a,p)=>a+gameScore(p),0)/ms.length):0;
+      const f={up:0,mid:0,down:0}; ms.forEach(p=>f[FATE(gameScore(p)).k]++); return {c,avg,n:ms.length,f}; }).sort((a,b)=>b.avg-a.avg);
+    box.innerHTML=rows.map((r,i)=>{ const F=FATE(r.avg); return `<div class="rrow card fate-${F.k}" style="animation-delay:${i*.15}s"><span class="acc">${i+1}</span><span style="font-size:60px">${r.c.em}</span><span>${r.c.nm} <em class="fb">${ICO(F.ic)} ${F.t}</em>
+      <div class="fc"><i class="up">${ICO("rocket")} ${r.f.up}</i><i class="mid">${ICO("anchor")} ${r.f.mid}</i><i class="down">${ICO("sword")} ${r.f.down}</i><small>${r.n} buxgalter · o'rtacha</small></div></span><span class="sc">${r.avg}</span></div>`; }).join(""); }
+  else { $("#rt").textContent="har bir bosh buxgalter"; const rows=ps.map(p=>({p,v:gameScore(p)})).sort((a,b)=>b.v-a.v).slice(0,6);
+    box.innerHTML=rows.map((r,i)=>{ const c=COMPANIES.find(c=>c.id===r.p.co)||{em:"",nm:""}, F=FATE(r.v); return `<div class="rrow card fate-${F.k}" style="animation-delay:${i*.12}s"><span class="acc">${i+1}</span>${AVI(r.p.av)}<span>${esc(r.p.nm)} <small style="font-size:30px">${c.em}</small> <em class="fb">${ICO(F.ic)} ${c.nm}: ${F.t}</em><div class="bar"><i style="width:${r.v/10}%"></i></div></span><span class="sc">${r.v}</span></div>`; }).join(""); } };
 function blitzView(S,rev){ const q=BQ[S.i], a=ansOf(S.i); return `<div class="kick">Blits · ${S.i+1} / ${BQ.length}</div><div class="qt">${q.q}</div>${rev?"":`<div class="qtimer" id="qtm">${Q_SEC}</div>`}
+  ${rev?`<div class="sb sx" data-s="1"><div class="kick" style="text-align:center">Blits · ${S.i+1}-savoldan keyin</div><h2 style="text-align:center">Reyting</h2><div class="sbl" id="lead"></div></div>`:""}
   <div class="ans ${rev?"rev":""}">${q.o.map((o,j)=>`<div class="an an${j} ${rev&&j===a?"ok":""}"><span class="sh">${SHP(j)}</span>${esc(o)}<span class="ct" id="ct${j}"></span></div>`).join("")}</div><div class="answered" id="aw"></div>`; }
 let qTimer=null;
 /* ---- Blits musiqasi: brauzerda sintez qilinadi (fayl va mualliflik muammosi yo'q).
@@ -1357,6 +1410,7 @@ const SFX={ ctx:null, on:true, out:null, nz:null, loop:null,
   bell(t,f,d,v){ this.osc(t,f,d,"sine",v); this.osc(t,f*2.01,d*.6,"sine",v*.35); this.osc(t,f*3.02,d*.3,"sine",v*.12); },
   end(){ if(!this.c()||!this.on) return; this.stop(); const t=this.ctx.currentTime+.02; this.osc(t,90,1.2,"sine",.5,45); [69,64,60].forEach((m,i)=>this.bell(t+i*.12,this.hz(m+12),1.8,.18)); },
   reveal(){ if(!this.c()||!this.on) return; this.stop(); const t=this.ctx.currentTime+.02; [60,64,67,72,76].forEach((m,i)=>this.bell(t+i*.08,this.hz(m+12),1.4,.14)); this.noise(t,.6,.04,5000); },
+  board(){ if(!this.c()||!this.on) return; const t=this.ctx.currentTime+.02; this.noise(t,.7,.05,800,5000); [48,55,60,64,67].forEach((m,i)=>this.osc(t+.1+i*.11,this.hz(m+12),.5,"triangle",.1)); this.osc(t+.7,65,.5,"sine",.5,40); },
   tick(){}, beat(){}, pad(){} };
 addEventListener("keydown",()=>SFX.c(),{once:true}); addEventListener("pointerdown",()=>SFX.c(),{once:true});
 let qBeat=-1;
@@ -1365,17 +1419,26 @@ SUBS.bq=S=>{ clearInterval(qTimer); qBeat=-1; const t0=(st.qt||{})[S.i]||Store.n
   if(left<=0&&qBeat!==999){ qBeat=999; SFX.end(); }
   if(left<=0){ clearInterval(qTimer); el.textContent="0"; setTimeout(()=>{ if(STEPS[st.k]===S){ lastNav=0; nav(1); } },700); } }; tick(); qTimer=setInterval(tick,250); LIVEV.bq(S); };LIVEV.bq=S=>{ const ps=plist(), n=ps.filter(p=>p.bq&&p.bq[S.i]).length, el=$("#aw"); if(el) el.textContent=`Javob berdi: ${n} / ${ps.length}`;
   if(n&&n>=ps.length&&STEPS[st.k]===S){ setTimeout(()=>{ if(STEPS[st.k]===S){ lastNav=0; nav(1); } },800); } };
-SUBS.br=S=>{ SFX.reveal(); LIVEV.br(S); };
-LIVEV.br=S=>{ const ps=plist(), cnt=[0,0,0,0]; ps.forEach(p=>{ const a=p.bq&&p.bq[S.i]; if(a&&a.a>=0&&a.a<4) cnt[a.a]++; }); cnt.forEach((c,j)=>{ const el=$("#ct"+j); if(el) el.textContent=c; }); const el=$("#aw"); if(el) el.textContent=`To'g'ri javob: ${cnt[ansOf(S.i)]} kishi`; };
-SUBS.final=()=>{ podium(); confetti(); };
+SUBS.br=(S,s)=>{ if(!s) SFX.reveal(); else SFX.board&&SFX.board(); $("#scene").classList.toggle("sbon",s>=1); LIVEV.br(S); };
+LIVEV.br=S=>{ const ps=plist(), cnt=[0,0,0,0]; ps.forEach(p=>{ const a=p.bq&&p.bq[S.i]; if(a&&a.a>=0&&a.a<4) cnt[a.a]++; }); cnt.forEach((c,j)=>{ const el=$("#ct"+j); if(el) el.textContent=c; }); const el=$("#aw"); if(el) el.textContent=`To'g'ri javob: ${cnt[ansOf(S.i)]} kishi`;
+  /* reyting: shu savolgacha blits ballari, top-5; o'rni o'zgarganini strelka bilan */
+  const lb=$("#lead"); if(lb){ const rank=u=>ps.map(p=>({p,v:blitzTotal(p,st,u)})).sort((a,b)=>b.v-a.v), now=rank(S.i), prev=S.i?rank(S.i-1).map(r=>r.p.id):[];
+    const top=now[0]?Math.max(1,now[0].v):1;
+    lb.innerHTML=now.slice(0,5).map((r,i)=>{ const was=prev.indexOf(r.p.id), d=S.i&&was>=0?was-i:0, got=blitzPts(r.p,S.i,st);
+      return `<div class="row" style="animation-delay:${.15+i*.12}s"><span class="r">${i+1}</span>${AVI(r.p.av)}<span class="n">${esc(r.p.nm)}</span>
+        <span class="g">${got?"+"+got:""}</span><span class="d">${d>0?`<i class="up">▲${d}</i>`:d<0?`<i class="dn">▼${-d}</i>`:""}</span><b>${r.v}</b><em style="width:${Math.max(4,r.v/top*100)}%"></em></div>`; }).join(""); } };
+SUBS.final=()=>{ podium(false); confetti(); };
+SUBS.b_final=()=>{ podium(true); confetti(); };
+LIVEV.b_final=()=>podium(true);
 LIVEV.final=()=>podium();
 LIVEV.g_res=S=>SUBS.g_res(S,st.s);
 /* G'oliblar faqat "Bosh buxgalter" o'yini bo'yicha (blits taxminan bosilishi mumkin — aralashtirmaymiz).
    Blits chempioni alohida, pastda bir qatorda. */
-function podium(){ const ps=plist().map(p=>({p,v:gameScore(p)})).sort((a,b)=>b.v-a.v).slice(0,3), box=$("#pod"); if(!box) return;
-  const bl=$("#blz"), up=revealedUpto(st), bt=plist().map(p=>({p,v:blitzTotal(p,st,up)})).filter(r=>r.v>0).sort((a,b)=>b.v-a.v)[0];
-  if(bl) bl.innerHTML=bt?`${ICO("sword")} Blits chempioni: ${AVI(bt.p.av)} <b>${esc(bt.p.nm)}</b> · ${bt.v} ball`:"";
-  const ord=[1,0,2], H=[420,310,240]; /* H[o'rin]: 1-o'rin eng baland */ box.innerHTML=ord.filter(i=>ps[i]).map(i=>{ const r=ps[i], c=COMPANIES.find(c=>c.id===r.p.co)||{em:"",nm:""}; return `<div class="pc" style="animation-delay:${(2-i)*.4}s">${AVI(r.p.av)}<div class="nm">${esc(r.p.nm)}</div><div class="co2">${c.em} ${c.nm}</div><div class="pt">${r.v} ball</div><div class="blk" style="height:${H[i]}px">${i+1}</div></div>`; }).join(""); }
+/* blitz=false: "Bosh buxgalter" o'yini g'oliblari (o'yindan keyin); blitz=true: test g'oliblari (testdan keyin) */
+function podium(blitz){ const up=revealedUpto(st), sc=p=>blitz?blitzTotal(p,st,up):gameScore(p), ps=plist().map(p=>({p,v:sc(p)})).sort((a,b)=>b.v-a.v).slice(0,3), box=$("#pod"); if(!box) return;
+  const ord=[1,0,2], H=[420,310,240]; /* H[o'rin]: 1-o'rin eng baland */ box.innerHTML=ord.filter(i=>ps[i]).map(i=>{ const r=ps[i], c=COMPANIES.find(c=>c.id===r.p.co)||{em:"",nm:""};
+    const sub=blitz?`${ICO("sword")} ${BQ.filter((q,j)=>{ const a=r.p.bq&&r.p.bq[j]; return a&&a.a===ansOf(j); }).length} / ${BQ.length} to'g'ri`:`${c.em} ${c.nm}`;
+    return `<div class="pc" style="animation-delay:${(2-i)*.4}s">${AVI(r.p.av)}<div class="nm">${esc(r.p.nm)}</div><div class="co2">${sub}</div><div class="pt">${r.v} ball</div><div class="blk" style="height:${H[i]}px">${i+1}</div></div>`; }).join(""); }
 function confetti(){ const cv=document.createElement("canvas"); cv.width=1920; cv.height=1080; cv.style.cssText="position:absolute;inset:0;pointer-events:none;z-index:30"; $("#stage").appendChild(cv); const x=cv.getContext("2d");
   const P=[...Array(180)].map(()=>({x:Math.random()*1920,y:-Math.random()*1080,v:3+Math.random()*4,r:Math.random()*6,c:["#f0c35a","#fff1c4","#d9a441","#b98a2e"][Math.random()*4|0],s:6+Math.random()*8})); const t0=performance.now();
   (function f(t){ x.clearRect(0,0,1920,1080); P.forEach(p=>{ p.y+=p.v; p.r+=.1; x.save(); x.translate(p.x+Math.sin(p.r)*20,p.y); x.rotate(p.r); x.fillStyle=p.c; x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); x.restore(); }); if(t-t0<6000) requestAnimationFrame(f); else cv.remove(); })(t0); }
@@ -1463,11 +1526,15 @@ function prender(){
   if(S.t==="g_crisis"&&c) return pset("cr",head+`<div class="big2">${c.em}</div><h1 style="text-align:center">${c.nm} · ${c.yr}-yil</h1><div class="pcard">${c.sit}</div><p>Siz — <b style="color:var(--gold)">bosh buxgalter</b>. Tez orada $1 000 000 ni sarflaysiz. O'ylab turing: qayerda tejash mumkin, qayerda — yo'q?</p>`);
   if(S.t==="g_buy"&&c) return buyV(head,c);
   if(S.t==="g_real"&&c){ const b=me.buy||{}; return pset("real",head+`<h1>Sizning tanlovingiz va haqiqat</h1><table class="cmp">${ITEMS.map(it=>{ const y=b[it.id], r=c.ideal[it.id]; return `<tr><td>${it.em} ${it.nm}</td><td>${y!=null?TIER[y]:"—"}</td><td>${y===r?ICO("check","okic"):"→ "+TIER[r]}</td></tr>`; }).join("")}</table><p style="margin-top:14px">Ekranda ${c.nm} haqiqatda nima qilganini ko'ring!</p>`); }
-  if(S.t==="g_res"&&c){ const v=gameScore(me); return pset("res"+v,head+`<div class="big2">${c.em}</div><h1 style="text-align:center">O'yin balingiz</h1><div class="res okk">${v} / 1000</div>`); }
+  if(S.t==="g_res"&&c){ const v=gameScore(me), F=FATE(v), n=exactN(me); return pset("res"+v,head+`<div class="big2 fate-${F.k}">${ICO(F.ic)}</div><h1 style="text-align:center">${c.nm} — ${F.t}!</h1><div class="res okk">${v} / 1000</div>
+    <p style="text-align:center">7 moddadan <b style="color:var(--gold)">${n} tasini</b> aynan ${c.nm} kabi tanladingiz.</p><p style="text-align:center;margin-top:10px">${F.k==="up"?"Siz haqiqiy bosh buxgalter kabi qaror qildingiz!":F.k==="mid"?"Yaxshi, lekin ba'zi joyda tejash yoki sarflash noto'g'ri bo'ldi.":"Afsus — bu tanlovlar bilan kompaniya yopilardi. Qayerda xato bo'lganini oldingi ekrandan ko'ring."}</p>`); }
   if(S.t==="bq") return blitzP(S,head);
-  if(S.t==="br"){ const a=me.bq&&me.bq[S.i], ok=a&&a.a===ansOf(S.i); return pset("br"+S.i,head+`<div class="res ${ok?"okk":"no"}">${ok?ICO("check")+" To'g'ri! +"+blitzPts(me,S.i,pst):a?"✗ Noto'g'ri":"⏱ Javob berilmadi"}</div><p style="text-align:center;margin-top:14px">To'g'ri javob: ${esc(BQ[S.i].o[ansOf(S.i)])}</p>`); }
+  if(S.t==="br"){ const a=me.bq&&me.bq[S.i], ok=a&&a.a===ansOf(S.i); return pset("br"+S.i,head+`<div class="res ${ok?"okk":"no"}">${ok?ICO("check")+" To'g'ri! +"+blitzPts(me,S.i,pst):a?"✗ Noto'g'ri":"⏱ Javob berilmadi"}</div><p style="text-align:center;margin-top:14px">To'g'ri javob: ${esc(BQ[S.i].o[ansOf(S.i)])}</p>${(()=>{ const all=list(allP).map(p=>({id:p.id,v:blitzTotal(p,pst,S.i)})).sort((a,b)=>b.v-a.v), r=all.findIndex(x=>x.id===PID)+1; return r?`<div class="res" style="font-size:30px;margin-top:24px">Sizning o'rningiz: <span style="color:var(--gold)">${r} / ${all.length}</span></div><p style="text-align:center">Blits balingiz: ${blitzTotal(me,pst,S.i)}</p>`:""; })()}`); }
   if(S.t==="fonar") return fonarP(head);
-  if(S.t==="final"||S.t==="thanks"||S.t==="answer"){ const g=gameScore(me), b=blitzTotal(me,pst,revealedUpto(pst)); return pset("fin"+g+"_"+b,head+`<div class="big2">${ICO("trophy")}</div><h1 style="text-align:center">Bosh buxgalter balingiz</h1><div class="res okk">${g} / 1000</div><p style="text-align:center">Blits (alohida): ${b} ball</p><p style="text-align:center;margin-top:20px">Rahmat!</p>`); }
+  if(S.t==="final"){ const g=gameScore(me), F=FATE(g); return pset("fin"+g,head+`<div class="big2">${ICO("trophy")}</div><h1 style="text-align:center">Bosh buxgalter balingiz</h1><div class="res okk">${g} / 1000</div><p style="text-align:center">${c?c.nm+" — ":""}${F.t}</p>`); }
+  if(S.t==="b_intro") return pset("bi",head+waitV("Blits test boshlanadi!","10 savol · 15 soniya · tez javob — ko'proq ball. Ilovadan chiqmang!"));
+  if(S.t==="b_final"||S.t==="answer"||S.t==="thanks"){ const up=revealedUpto(pst), b=blitzTotal(me,pst,up), all=list(allP).map(p=>({id:p.id,v:blitzTotal(p,pst,up)})).sort((x,y)=>y.v-x.v), r=all.findIndex(x=>x.id===PID)+1;
+    return pset("bf"+b+"_"+r,head+`<div class="big2">${ICO("sword")}</div><h1 style="text-align:center">Blits natijangiz</h1><div class="res okk">${b} ball</div><p style="text-align:center">O'rningiz: <b style="color:var(--gold)">${r} / ${all.length}</b></p>`); }
   if(S.t==="g_intro") return pset("gi",head+waitV("O'yin boshlanmoqda!","Siz bosh buxgalter bo'lasiz. Ekranga qarang."));
   return pset("w"+S.t,head+waitV("Siz darsdasiz ✓","Ekranga qarang — telefon kerak bo'lganda o'zi o'zgaradi"));
 }
