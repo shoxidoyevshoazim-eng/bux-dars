@@ -485,6 +485,18 @@ h1.warm{text-align:center;color:#f0c35a;animation:pop .6s cubic-bezier(.3,1.7,.5
 .penov .m{font:700 54px "Cinzel",serif;color:#ffd21f;margin:14px 0}.penov .s{color:#e9cfc8}
 .penw{margin:10px 0 4px;padding:8px 12px;border-radius:8px;background:rgba(160,40,25,.25);border:1px solid rgba(255,122,107,.45);color:#ffb4a8;font:600 13px var(--body);text-align:center}
 #roomlbl{display:none!important}
+.qlaw{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:60px}
+.qlaw>div{text-align:center;padding:30px 20px;background:linear-gradient(160deg,rgba(26,20,11,.9),rgba(8,6,3,.85));border:1.5px solid rgba(240,195,90,.4);border-radius:10px}
+.qlaw .seal{width:130px;height:130px;margin:0 auto 14px}
+.qlaw b{display:block;font:700 60px "Cormorant Garamond",serif;color:#f0c35a}.qlaw span{display:block;font:500 30px "Manrope",sans-serif;color:#f7f0e2;margin-top:8px}
+.qnote{margin-top:46px;font:500 30px/1.45 "Manrope",sans-serif;color:#e9dfcb;max-width:1500px}.qnote b{color:#f0c35a}
+/* isloh bosqichlari: to'liq ma'lumotli karta */
+body.th-proj .track{top:455px}
+body.th-proj .evcard{top:640px;height:auto;min-height:230px;padding:30px 50px}
+body.th-proj .evcard .t{font-size:54px}
+.evcard .ed{font:600 26px "Cinzel",serif;letter-spacing:.04em;color:#d6ad62;margin:4px 0 12px}
+body.th-proj .evcard .x{font:500 38px/1.3 var(--body);margin-top:6px}.evcard .x b{color:#f0c35a;font-weight:700}
+.evcard .xm{color:#e9dfcb}
 .lurl b{color:var(--gold)}
 .resov{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7)}
 .resbox{width:min(720px,92vw);max-height:84vh;overflow:auto;padding:26px 28px;border-radius:14px;background:#120d06;border:1px solid rgba(240,195,90,.45);color:#f7f0e2;font:15px "Manrope",sans-serif}
@@ -924,17 +936,19 @@ const ansOf = i => (BQ[i].k - 1 + i) % 4;   // kodlash: k = (to'g'ri + 1 - i) mo
 /* 6 ta tamoyil — har biri alohida slayd: katta rasm + jonli belgi + 1 qator + misol */
 const PRS = [
  {img:"s_tarozi", fb:"jurnal", emb:"tarozi", n:"Ikki yoqlama yozuv", one:"Har bir pul ikki joyga yoziladi: debet va kredit.", ex:"Non oldingiz: <b>pul kamaydi</b>, <b>non ko'paydi</b> — ikki o'zgarish."},
- {img:"s_mayoq", fb:"shahar", emb:"mayoq", n:"Uzluksizlik", one:"Korxona ertaga ham ishlaydi, deb hisoblanadi.", ex:"Do'kon yopilmaydi — uskunalar <b>\"bir kunlik\"</b> deb arzon baholanmaydi."},
+ {img:"s_mayoq", fb:"shahar", emb:"mayoq", q:1, n:"Uzluksizlik", one:"Korxona ertaga ham ishlaydi, deb hisoblanadi.", ex:"Do'kon yopilmaydi — uskunalar <b>\"bir kunlik\"</b> deb arzon baholanmaydi."},
+ {img:"s_ishonch", fb:"venets", emb:"lupa", q:1, n:"Ishonchlilik", one:"Hisobotdagi har bir raqam haqiqatga mos va hujjat bilan tasdiqlangan.", ex:"Kassada $500 deb yozilgan — sanab ko'rsangiz ham <b>aynan $500</b> chiqadi."},
  {img:"s_qumsoat", fb:"raqam", emb:"qumsoat", n:"Hisoblash", one:"Xarajat pul to'langan kuni emas, sodir bo'lgan oyda yoziladi.", ex:"Dekabr oyligi yanvarda to'lansa ham — bu <b>dekabr</b> xarajati."},
  {img:"s_langar", fb:"hook", emb:"langar", n:"Ehtiyotkorlik", one:"Foydani oshirib, xavfni kamaytirib ko'rsatmaymiz.", ex:"Qarzdor to'lamasligi aniq bo'lsa — bu pul <b>\"bor\" deb yozilmaydi</b>."},
  {img:"s_lupa", fb:"jurnal", emb:"lupa", n:"Mazmun shakldan ustun", one:"Qog'ozda nima deyilgani emas — aslida nima bo'lgani muhim.", ex:"\"Ijara\" deyilgan, lekin oxirida mashina sizniki — demak bu <b>xarid</b>."},
- {img:"s_kompas", fb:"venets", emb:"kompas", n:"Qiyoslanuvchanlik", one:"Har yili bir xil usul — yillarni solishtirsa bo'ladi.", ex:"Bu yil o'sdikmi yoki kamaydikmi — <b>darhol ko'rinadi</b>."}
+ {img:"s_kompas", fb:"venets", emb:"kompas", q:1, n:"Qiyoslanuvchanlik", one:"Har yili bir xil usul — yillarni solishtirsa bo'ladi.", ex:"Bu yil o'sdikmi yoki kamaydikmi — <b>darhol ko'rinadi</b>."}
 ];
 const HOOK_Q = "Nega <b>500 yil</b> oldingi qoida bugun ham ishlaydi?";
 const STEPS = [
  {t:"lobby"},{t:"video"},{t:"cover"},{t:"hook"},
  {t:"poll",sub:3},{t:"jurnal",sub:1},
- {t:"pr",i:0,sub:1},{t:"ledger",sub:4},{t:"pr",i:1,sub:1},{t:"pr",i:2,sub:1},{t:"pr",i:3,sub:1},{t:"pr",i:4,sub:1},{t:"pr",i:5,sub:1},
+ {t:"qonun",sub:3},
+ {t:"pr",i:0,sub:1},{t:"ledger",sub:4},{t:"pr",i:1,sub:1},{t:"pr",i:2,sub:1},{t:"pr",i:3,sub:1},{t:"pr",i:4,sub:1},{t:"pr",i:5,sub:1},{t:"pr",i:6,sub:1},
  {t:"time",sub:6},
  {t:"g_intro",sub:4},{t:"g_wheel"},{t:"g_crisis"},{t:"g_buy"},{t:"g_real",sub:5},{t:"g_res",sub:1},{t:"final"},
  {t:"esda",sub:3},
@@ -993,7 +1007,10 @@ function gameScore(p){ const c=COMPANIES.find(c=>c.id===p.co); if(!c||!p.buy) re
 const PEN=100, penOf=(p,f)=>Object.keys((p&&p.pen)||{}).filter(f).length;
 /* savol vaqti: hazil/video savollariga 25 s (saboq: o'ylash va kulish uchun vaqt), oddiylariga 15 s */
 const QS=i=>(BQ[i]&&BQ[i].s)||Q_SEC;
-function blitzPts(p,i,st){ const a=p.bq&&p.bq[i]; if(!a||a.a!==ansOf(i)) return 0; const t0=(st.qt||{})[i]||0; const used=Math.max(0,(a.t-t0)/1000); return 200+Math.round(50*Math.max(0,1-used/QS(i))); }
+/* Javob faqat savolning JORIY boshlanishidan keyin berilgan bo'lsa haqiqiy (eski sinov/oldingi urinish javoblari hisoblanmaydi).
+   3 s chidamlilik — telefon va kompyuter soati farqi uchun. */
+function ansV(p,i,s){ const a=p&&p.bq&&p.bq[i]; if(!a) return null; const t0=((s||{}).qt||{})[i]||0; return a.t>=t0-3000?a:null; }
+function blitzPts(p,i,st){ const a=ansV(p,i,st); if(!a||a.a!==ansOf(i)) return 0; const t0=(st.qt||{})[i]||0; const used=Math.max(0,(a.t-t0)/1000); return 200+Math.round(50*Math.max(0,1-used/QS(i))); }
 function blitzTotal(p,st,upto){ let s=0; for(let i=0;i<=upto;i++) s+=blitzPts(p,i,st); return Math.max(0,s-penOf(p,k=>k.slice(0,2)==="bq"&&+k.slice(2)<=upto)*PEN); }
 function revealedUpto(st){ let r=-1; for(let k=0;k<=(st.k||0);k++){ const S=STEPS[k]; if(S&&S.t==="br") r=S.i; } return r; }
 function total(p,st){ return gameScore(p)+blitzTotal(p,st,revealedUpto(st)); }
@@ -1084,12 +1101,16 @@ function nav(d){
   const now=Date.now(); if(now-lastNav<900) return; lastNav=now;
   const S=STEPS[st.k], max=S.t==="g_real"?usedCos().length-1:(S.sub||0);
   if(d>0){ if(st.s<max){ st.s++; onSub(); pub(); return; } if(st.k<STEPS.length-1){ enter(st.k+1); } }
-  else { autoHold=st.k; if(st.s>0){ st.s--; render(false); pub(); return; } if(st.k>0){ st.k--; if(STEPS[st.k].t==="video") st.k--; const P=STEPS[st.k]; st.s=P.t==="g_real"?usedCos().length-1:(P.sub||0); render(true); pub(); } }
+  else { autoHold=st.k; if(st.s>0){ st.s--; render(false); pub(); return; } if(st.k>0){ st.k--; if(STEPS[st.k].t==="video") st.k--;
+    /* orqaga test savoliga: tugagan bo'lsa — undan oldingi natijaga o'tamiz; tugamagan bo'lsa (vaqtidan oldin o'tib ketilgan) — savol qaytadan boshlanadi */
+    if(STEPS[st.k].t==="bq"){ const i=STEPS[st.k].i; st.qd=st.qd||{}; if(st.qd[i]) st.k--; else { st.qt=st.qt||{}; st.qt[i]=Store.now(); st.s=0; render(true); pub(); return; } }
+    const P=STEPS[st.k]; st.s=P.t==="g_real"?usedCos().length-1:(P.sub||0); render(true); pub(); } }
 }
 function enter(k){ autoHold=-1; st.k=k; st.s=0; if(STEPS[k].t==="fonar") st.ft=Store.now(); const t=STEPS[k].t;
   if(t==="g_wheel") assign();
   if(t==="g_buy") st.bt=Store.now();
-  if(t==="bq"){ st.qt=st.qt||{}; st.qt[STEPS[k].i]=Store.now(); }
+  /* test savoli: tugagan bo'lsa — qayta boshlanmaydi, natijasi ko'rsatiladi; aks holda — yangi vaqt bilan boshlanadi */
+  if(t==="bq"){ st.qd=st.qd||{}; if(st.qd[STEPS[k].i]) return enter(k+1); st.qt=st.qt||{}; st.qt[STEPS[k].i]=Store.now(); }
   render(true); pub();
   if(demoBots) botsAct();
 }
@@ -1162,7 +1183,7 @@ function onSub(silent){ const S=STEPS[st.k], f=SUBS[S.t]; $$("#scene [data-s]").
 /* AVTO-OCHILISH: slayd ichidagi ma'lumotlar o'zi ketma-ket chiqadi (ms — oraliq).
    Qo'lda qoladi: vaqt chizig'i (time) va "Haqiqatda nima qilishdi" (g_real) — boshlovchi har birini tushuntiradi.
    Ovoz berish (poll): savol turadi, ovozlar yig'ilgach bir marta bosiladi — qolgani o'zi chiqadi. */
-const AUTO={br:4500,g_intro:1700,b_intro:1700,jurnal:1800,pr:2200,ledger:1900,esda:1500,answer:2200,poll:2300,prin:1600,law:1200,final:1500};
+const AUTO={qonun:1600,br:4500,g_intro:1700,b_intro:1700,jurnal:1800,pr:2200,ledger:1900,esda:1500,answer:2200,poll:2300,prin:1600,law:1200,final:1500};
 let autoT=null, autoKey="", autoHold=-1; /* orqaga bosilganda shu slaydda avto to'xtaydi */
 function maxSub(S){ return S.t==="g_real"?usedCos().length-1:(S.sub||0); }
 function autoNext(){ const S=STEPS[st.k], key=st.k+"."+st.s;
@@ -1281,12 +1302,13 @@ const PRIN=[
  {ic:"🔍",n:"Mazmun shakldan ustun",d:"Hujjatda nima deb yozilgani emas, aslida nima bo'lgani hisobga olinadi.",e:"\"Ijara\" deyilgan, lekin oxirida mashina sizniki bo'ladi — demak bu xarid."},
  {ic:"📊",n:"Qiyoslanuvchanlik",d:"Turli yillar hisobotini solishtirish uchun usul o'zgarmaydi.",e:"Har yili bir xil usul: o'sdikmi yoki kamaydikmi — darhol ko'rinadi."}];
 const EV=[
- {y:1994,ic:"📜",t:"Davlat dasturi",x:"Vazirlar Mahkamasi 433-son qarori: xalqaro amaliyotdagi hisob va statistika tizimiga o'tish"},
- {y:1996,ic:"⚖️",t:"\"Buxgalteriya hisobi to'g'risida\"gi Qonun",x:"1996-yil 30-avgust, 279-I-son — hisobning huquqiy asosi"},
- {y:1998,ic:"📘",t:"Birinchi milliy standart",x:"1-son BHMS «Hisob siyosati va moliyaviy hisobot»"},
- {y:2016,ic:"🖋️",t:"Qonunning yangi tahriri",x:"O'RQ-404 — qonun yangi tahrirda qabul qilindi"},
- {y:2020,ic:"🌍",t:"MHXSga o'tish",x:"PQ-4611: AJ, banklar, sug'urta va yirik soliq to'lovchilar 2021-yil yakunidan MHXS bo'yicha hisobot beradi"},
- {y:2025,ic:"🚀",t:"Yangi bosqich",x:"PQ-282: moliyaviy hisobni xalqaro standartlar asosida isloh qilish"}];
+ /* manbalar: lex.uz (804291 — VM 433, 2931253 — O'RQ-404), gov.uz/imv (PQ-282, MHMS), buxgalter.uz */
+ {y:1994,ic:"📜",t:"Davlat dasturi",d:"Vazirlar Mahkamasi qarori · 24.08.1994, 433-son",x:"Hisobni xalqaro tizimga o'tkazish dasturi",m:"Sovet hisobidan bozor iqtisodiyoti hisobiga — islohotning birinchi qadami"},
+ {y:1996,ic:"⚖️",t:"\"Buxgalteriya hisobi to'g'risida\"gi Qonun",d:"30.08.1996, 279-I-son",x:"Hisob birinchi marta alohida qonun bilan tartibga solindi",m:"Kim, qanday va qaysi qoidalar bilan hisob yuritishi — huquqiy asos paydo bo'ldi"},
+ {y:1998,ic:"📘",t:"Birinchi milliy standart",d:"1-son BHMS «Hisob siyosati va moliyaviy hisobot» · 1998",x:"Milliy standartlar (BHMS) tizimi boshlandi",m:"Hisobot tuzish qoidalari xalqaro standartlarga yaqinlashtirildi"},
+ {y:2016,ic:"🖋️",t:"Qonunning yangi tahriri",d:"O'RQ-404 · 13.04.2016 (bugun ham amalda)",x:"3 ta asosiy prinsip: uzluksizlik, ishonchlilik, qiyoslanuvchanlik",m:"Darsdagi tamoyillarning qonuniy asosi aynan shu qonun"},
+ {y:2020,ic:"🌍",t:"MHXSga o'tish",d:"Prezident qarori PQ-4611 · 24.02.2020",x:"Banklar, AJ va yirik korxonalar 2021-yildan MHXSda",m:"Hisobotlar xalqaro investorlar uchun tushunarli bo'ldi"},
+ {y:2025,ic:"🚀",t:"Yangi bosqich",d:"Prezident qarori PQ-282 · 15.09.2025",x:"MHXS — yirik tashkilotlarga majburiy, boshqalarga ixtiyoriy",m:"2026-yil aprel: birinchi milliy moliyaviy hisobot standarti (MHMS) tasdiqlandi"}];
 
 /* ---- "Kema jurnali" slaydlari ---- */
 const bg = (k,fb) => `<div class="bgimg" style="background-image:url(${IMG[k]||IMG[fb]||IMG.cover})"></div>`;
@@ -1300,20 +1322,25 @@ const EMB = {
 };
 const emb = k => `<svg class="emb" viewBox="0 0 210 210">${EMB[k]}</svg>`;
 /* jez muhr: aylanuvchi gradusli halqa + rim raqami */
-const ROM=["","I","II","III","IV","V","VI"];
+const ROM=["","I","II","III","IV","V","VI","VII"];
 const TICKS=Array.from({length:72},(_,i)=>{ const a=i*5*Math.PI/180, r1=i%6?86:80, r2=92; return `<line x1="${(100+r1*Math.sin(a)).toFixed(1)}" y1="${(100-r1*Math.cos(a)).toFixed(1)}" x2="${(100+r2*Math.sin(a)).toFixed(1)}" y2="${(100-r2*Math.cos(a)).toFixed(1)}"/>`; }).join("");
 const seal=(t,cls="")=>`<svg class="seal ${cls}" viewBox="0 0 200 200"><defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0bf"/><stop offset=".45" stop-color="#d9a441"/><stop offset=".7" stop-color="#9a6b1f"/><stop offset="1" stop-color="#f6d488"/></linearGradient><radialGradient id="sf" cx=".5" cy=".4" r=".6"><stop offset="0" stop-color="#2a1f0e"/><stop offset="1" stop-color="#080603"/></radialGradient></defs>
  <circle class="glow" cx="100" cy="100" r="96" fill="none" stroke="#f0c35a" stroke-width="6" opacity=".4" style="filter:blur(6px)"/>
  <g class="bez" stroke="url(#sg)" stroke-width="2">${TICKS}</g>
  <circle cx="100" cy="100" r="74" fill="url(#sf)" stroke="url(#sg)" stroke-width="3.5"/><circle cx="100" cy="100" r="66" fill="none" stroke="url(#sg)" stroke-width="1" opacity=".55"/>
  <text x="100" y="104" dominant-baseline="central" text-anchor="middle" fill="url(#sg)">${t}</text></svg>`;
-const PHOTO = new Set(["cover","hook","jurnal","pr","esda","answer"]);
+const PHOTO = new Set(["cover","hook","jurnal","pr","esda","answer","qonun"]);
 Object.assign(VIEWS, {
  cover:()=>`${bg("cover")}<div class="shade low"></div><div class="cov"><div class="k2">KEMA JURNALI</div><h1>Buxgalteriya hisobi tamoyillari</h1><div class="s2">va isloh qilish bosqichlari</div><div class="w2">Taqdimotchi: <b class="acc">Shoazim Furqatovich</b></div></div>`,
  hook:()=>`${bg("hook")}<div class="shade full"></div><div class="bigq"><div class="q">${HOOK_Q}</div><div class="h">Javobini dars oxirida birga topamiz</div></div>`,
  jurnal:()=>`${bg("jurnal")}<div class="shade"></div><div class="rpanel"><div class="pnum">BUXGALTERIYA NIMA?</div><h2>Biznesning <span class="acc">kema jurnali</span></h2>
    <div class="one">Har bir pul harakati yoziladi — hech narsa yashirilmaydi.</div><div class="ex sx" data-s="1">Kapitan jurnalsiz adashadi.<br>Kompaniya hisobsiz — <b>bankrot bo'ladi</b>.</div></div>`,
- pr:S=>{ const p=PRS[S.i]; return `${bg(p.img,p.fb)}<div class="shade"></div><div class="rpanel">${seal(ROM[S.i+1])}<div class="pnum">Tamoyil ${S.i+1} / 6</div><h2>${p.n}</h2><div class="one">${p.one}</div><div class="ex sx" data-s="1">${p.ex}</div></div>`; },
+ /* Qonun (O'RQ-404, 3-modda): 3 ta asosiy prinsip — lex.uz/docs/2931253 */
+ qonun:()=>`${bg("s_tarozi","jurnal")}<div class="shade full" style="background:rgba(0,0,0,.72)"></div>
+   <div style="position:absolute;left:140px;right:140px;top:90px"><div class="kick">"Buxgalteriya hisobi to'g'risida"gi Qonun · O'RQ-404 · 3-modda</div><h2>Qonunda — <span class="acc">3 ta asosiy prinsip</span></h2>
+   <div class="qlaw">${[["Uzluksizlik","Korxona ertaga ham ishlaydi"],["Ishonchlilik","Raqamlar haqiqatga mos va hujjatli"],["Qiyoslanuvchanlik","Yillarni solishtirsa bo'ladi"]].map((x,i)=>`<div class="sx" data-s="${i+1}">${seal(ROM[i+1])}<b>${x[0]}</b><span>${x[1]}</span></div>`).join("")}</div>
+   <p class="qnote">Yana 4 tasi — xalqaro amaliyotdan (MHXS). Darsda jami <b>7 ta</b> tamoyil.</p></div>`,
+ pr:S=>{ const p=PRS[S.i]; return `${bg(p.img,p.fb)}<div class="shade"></div><div class="rpanel">${seal(ROM[S.i+1])}<div class="pnum">Tamoyil ${S.i+1} / ${PRS.length} · ${p.q?"Qonunda":"Xalqaro amaliyot"}</div><h2>${p.n}</h2><div class="one">${p.one}</div><div class="ex sx" data-s="1">${p.ex}</div></div>`; },
  esda:()=>`${bg("cover")}<div class="shade full"></div><div style="position:absolute;left:140px;top:90px"><div class="kick">Xulosa</div><h2>Esda qoladigan <span class="acc">3 narsa</span></h2></div>
    <div class="esda"><div class="sx" data-s="1">${seal("I","sm")}Har bir pul — ikki joyda: D = K</div><div class="sx" data-s="2">${seal("II","sm")}Hech narsa yashirilmaydi — ishonch shundan</div><div class="sx" data-s="3">${seal("III","sm")}O'zbekiston 1994-yildan xalqaro standart sari</div></div>`,
  answer:()=>`${bg("venets")}<div class="shade low"></div><div class="ansr"><div class="a1 sx" data-s="1">${HOOK_Q}</div>
@@ -1396,7 +1423,7 @@ let yearNow=1991;
 SUBS.time=(S,s)=>{ const el=$("#yr"), trk=$("#trk"); if(!el) return; const to=s?EV[s-1].y:1991, from=yearNow, t0=performance.now(), tok=typeTok; yearNow=to;
   (function f(t){ if(tok!==typeTok) return; const u=Math.min(1,(t-t0)/900); el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-u,3))); if(u<1) requestAnimationFrame(f); })(t0);
   $("#fill").style.width=s?((s-.5)/EV.length*100)+"%":"0"; trk.querySelectorAll(".dot").forEach((d,j)=>d.classList.toggle("on",j<s));
-  if(s){ const e=EV[s-1]; $("#evc").innerHTML=`<div class="swap" style="display:flex;gap:44px;align-items:center;width:100%"><div class="ico">${document.body.classList.contains("th-proj")?seal(ROM[s]):e.ic}</div><div><div class="t">${e.t}</div><div class="x">${e.x}</div></div></div>`; } };
+  if(s){ const e=EV[s-1]; $("#evc").innerHTML=`<div class="swap" style="display:flex;gap:44px;align-items:center;width:100%"><div class="ico">${document.body.classList.contains("th-proj")?seal(ROM[s]):e.ic}</div><div style="flex:1"><div class="t">${e.t}</div><div class="ed">${e.d}</div><div class="x">${e.x}</div></div></div>`; } };
 /* ---- Taqdir g'ildiragi: lotereya ----
    ro'yxatdan bittadan ism "tanlanadi" (chiplar bo'ylab yugurgan nur) → markazda baraban kompaniyalarni aylantiradi → to'xtaydi → kishi o'z kemasiga o'tadi */
 let wheelTimer=null, wk={};
@@ -1490,10 +1517,10 @@ let qBeat=-1;
 SUBS.bq=S=>{ clearInterval(qTimer); qBeat=-1; const t0=(st.qt||{})[S.i]||Store.now(); const QQ=QS(S.i), rem=QQ-(Store.now()-t0)/1000; if(rem>0.5) SFX.start(rem);
   const tick=()=>{ const el=$("#qtm"); if(!el||STEPS[st.k]!==S){ clearInterval(qTimer); if(STEPS[st.k].t!=="bq") SFX.stop(); return; } const left=Math.max(0,QQ-(Store.now()-t0)/1000); el.textContent=Math.ceil(left);
   if(left<=0&&qBeat!==999){ qBeat=999; SFX.end(); }
-  if(left<=0){ clearInterval(qTimer); el.textContent="0"; setTimeout(()=>{ if(STEPS[st.k]===S){ lastNav=0; nav(1); } },700); } }; tick(); qTimer=setInterval(tick,250); LIVEV.bq(S); };LIVEV.bq=S=>{ const ps=plist(), n=ps.filter(p=>p.bq&&p.bq[S.i]).length, el=$("#aw"); if(el) el.textContent=`Javob berdi: ${n} / ${ps.length}`;
-  if(n&&n>=ps.length&&STEPS[st.k]===S){ setTimeout(()=>{ if(STEPS[st.k]===S){ lastNav=0; nav(1); } },800); } };
+  if(left<=0){ clearInterval(qTimer); el.textContent="0"; st.qd=st.qd||{}; st.qd[S.i]=1; setTimeout(()=>{ if(STEPS[st.k]===S){ lastNav=0; nav(1); } },700); } }; tick(); qTimer=setInterval(tick,250); LIVEV.bq(S); };LIVEV.bq=S=>{ const ps=plist(), n=ps.filter(p=>ansV(p,S.i,st)).length, el=$("#aw"); if(el) el.textContent=`Javob berdi: ${n} / ${ps.length}`;
+  if(n&&n>=ps.length&&STEPS[st.k]===S){ st.qd=st.qd||{}; st.qd[S.i]=1; setTimeout(()=>{ if(STEPS[st.k]===S){ lastNav=0; nav(1); } },800); } };
 SUBS.br=(S,s)=>{ if(!s) SFX.reveal(); else SFX.board&&SFX.board(); $("#scene").classList.toggle("sbon",s>=1); LIVEV.br(S); };
-LIVEV.br=S=>{ const ps=plist(), cnt=[0,0,0,0]; ps.forEach(p=>{ const a=p.bq&&p.bq[S.i]; if(a&&a.a>=0&&a.a<4) cnt[a.a]++; }); cnt.forEach((c,j)=>{ const el=$("#ct"+j); if(el) el.textContent=c; }); const el=$("#aw"); if(el) el.textContent=`To'g'ri javob: ${cnt[ansOf(S.i)]} kishi`;
+LIVEV.br=S=>{ const ps=plist(), cnt=[0,0,0,0]; ps.forEach(p=>{ const a=ansV(p,S.i,st); if(a&&a.a>=0&&a.a<4) cnt[a.a]++; }); cnt.forEach((c,j)=>{ const el=$("#ct"+j); if(el) el.textContent=c; }); const el=$("#aw"); if(el) el.textContent=`To'g'ri javob: ${cnt[ansOf(S.i)]} kishi`;
   /* reyting: shu savolgacha blits ballari, top-5; o'rni o'zgarganini strelka bilan */
   const lb=$("#lead"); if(lb){ const rank=u=>ps.map(p=>({p,v:blitzTotal(p,st,u)})).sort((a,b)=>b.v-a.v), now=rank(S.i), prev=S.i?rank(S.i-1).map(r=>r.p.id):[];
     const top=now[0]?Math.max(1,now[0].v):1;
@@ -1510,7 +1537,7 @@ LIVEV.g_res=S=>SUBS.g_res(S,st.s);
 /* blitz=false: "Bosh buxgalter" o'yini g'oliblari (o'yindan keyin); blitz=true: test g'oliblari (testdan keyin) */
 function podium(blitz){ const up=revealedUpto(st), sc=p=>blitz?blitzTotal(p,st,up):gameScore(p), ps=plist().map(p=>({p,v:sc(p)})).sort((a,b)=>b.v-a.v).slice(0,3), box=$("#pod"); if(!box) return;
   const ord=[1,0,2], H=[420,310,240]; /* H[o'rin]: 1-o'rin eng baland */ box.innerHTML=ord.filter(i=>ps[i]).map(i=>{ const r=ps[i], c=COMPANIES.find(c=>c.id===r.p.co)||{em:"",nm:""};
-    const sub=blitz?`${ICO("sword")} ${BQ.filter((q,j)=>{ const a=r.p.bq&&r.p.bq[j]; return a&&a.a===ansOf(j); }).length} / ${BQ.length} to'g'ri`:`${c.em} ${c.nm}`;
+    const sub=blitz?`${ICO("sword")} ${BQ.filter((q,j)=>{ const a=ansV(r.p,j,st); return a&&a.a===ansOf(j); }).length} / ${BQ.length} to'g'ri`:`${c.em} ${c.nm}`;
     return `<div class="pc" style="animation-delay:${(2-i)*.4}s">${AVI(r.p.av)}<div class="nm">${esc(r.p.nm)}</div><div class="co2">${sub}</div><div class="pt">${r.v} ball</div><div class="blk" style="height:${H[i]}px">${i+1}</div></div>`; }).join(""); }
 function confetti(){ const cv=document.createElement("canvas"); cv.width=1920; cv.height=1080; cv.style.cssText="position:absolute;inset:0;pointer-events:none;z-index:30"; $("#stage").appendChild(cv); const x=cv.getContext("2d");
   const P=[...Array(180)].map(()=>({x:Math.random()*1920,y:-Math.random()*1080,v:3+Math.random()*4,r:Math.random()*6,c:["#f0c35a","#fff1c4","#d9a441","#b98a2e"][Math.random()*4|0],s:6+Math.random()*8})); const t0=performance.now();
@@ -1521,7 +1548,7 @@ function confetti(){ const cv=document.createElement("canvas"); cv.width=1920; c
 const RES_HEAD=["#","Ism","Kompaniya","Sarflangan $","O'yin bali","Taqdir","Aynan topgan (7 dan)","Blits bali","Blits to'g'ri","Jarimalar","Fonarlar",...ITEMS.map(i=>i.nm)];
 function resRows(){ const ps=plist(), up=revealedUpto(st);
   return ps.map(p=>({p,t:gameScore(p)})).sort((a,b)=>b.t-a.t).map((r,i)=>{ const p=r.p, c=COMPANIES.find(c=>c.id===p.co);
-    const ok=BQ.filter((q,j)=>{ const a=p.bq&&p.bq[j]; return a&&a.a===ansOf(j); }).length;
+    const ok=BQ.filter((q,j)=>{ const a=ansV(p,j,st); return a&&a.a===ansOf(j); }).length;
     return [i+1,p.nm,c?c.nm:"",spent(p.buy),r.t,FATE(r.t).t,exactN(p),blitzTotal(p,st,up),ok,Object.keys(p.pen||{}).length?Object.keys(p.pen).length+" ta":"",p.fc||0,...ITEMS.map(it=>p.buy&&p.buy[it.id]!=null?TIER[p.buy[it.id]]:"")]; }); }
 const fileDate=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}_${String(d.getHours()).padStart(2,"0")}-${String(d.getMinutes()).padStart(2,"0")}`;
 function exportCSV(rows,when){ rows=rows||resRows(); if(!rows.length) return toast("O'yinchilar yo'q");
@@ -1580,7 +1607,7 @@ let PID=null, me=null, pst={}, view="", buyLocal=null, entryT=null, allP={}, sel
 let penPend=null;
 const PENW=`<div class="penw">⚠ Ilovadan chiqmang — chiqsangiz −${PEN} ball va ismingiz ekranda ko'rinadi</div>`;
 function penKey(){ const S=STEPS[pst.k||0]; if(!S||!me) return null;
-  if(S.t==="bq"&&!(me.bq&&me.bq[S.i])) return "bq"+S.i;
+  if(S.t==="bq"&&!ansV(me,S.i,pst)) return "bq"+S.i;
   if(S.t==="g_buy"&&!me.done&&me.co) return "buy"; return null; }
 function penVis(){ if(document.hidden){ const k=penKey(); if(k&&!(me.pen&&me.pen[k])){ penPend=k; lsx.setItem("bux_pen_"+ROOM,k); Store.update("players/"+PID,{["pen/"+k]:Date.now()}); } return; }
   const k=penPend||lsx.getItem("bux_pen_"+ROOM); if(!k) return; penPend=null; lsx.removeItem("bux_pen_"+ROOM);
@@ -1620,8 +1647,8 @@ function mirror(S,s){ const P=S.t==="pr"&&PRS[S.i], E=S.t==="time"&&s?EV[s-1]:nu
   return ({ lobby:["Siz darsdasiz!","Dars hozir boshlanadi","Xush kelibsiz"], video:["Kirish videosi","Ekranga qarang — ovoz bilan","Kino"],
     cover:["Buxgalteriya hisobi tamoyillari","va isloh qilish bosqichlari","Ochiq dars"], hook:["Nega 500 yil oldingi qoida bugun ham ishlaydi?","Javobini dars oxirida birga topamiz","Savol"],
     jurnal:["Biznesning kema jurnali","Har bir pul harakati yoziladi — hech narsa yashirilmaydi","Buxgalteriya nima?"],
-    pr:P?[P.n,P.one,`Tamoyil ${S.i+1} / 6`]:null, ledger:["Ikki yoqlama yozuv","Har pul ikki joyda: debet = kredit","Asosiy qoida"],
-    time:E?[`${E.y} · ${E.t}`,E.x,"Isloh bosqichlari"]:["Isloh qilish bosqichlari","O'zbekiston: 1991 → bugun","Tarix"],
+    pr:P?[P.n,P.one,`Tamoyil ${S.i+1} / ${PRS.length}${P.q?" · Qonunda":""}`]:null, qonun:["Qonunda — 3 ta asosiy prinsip","Uzluksizlik · Ishonchlilik · Qiyoslanuvchanlik","O'RQ-404, 3-modda"], ledger:["Ikki yoqlama yozuv","Har pul ikki joyda: debet = kredit","Asosiy qoida"],
+    time:E?[`${E.y} · ${E.t}`,`${E.d}. ${E.x}`,"Isloh bosqichlari"]:["Isloh qilish bosqichlari","O'zbekiston: 1991 → bugun","Tarix"],
     esda:["Esda qoladigan 3 narsa","Debet = Kredit · Ishonch · Xalqaro standart","Xulosa"],
     answer:["Chunki ishonch eskirmaydi","Har bir pul ikki joyda yoziladi, hech narsa yashirilmaydi","Javob"],
     g_intro:["Siz — bosh buxgalter!","Kompaniya, inqiroz va $1 000 000 — qoidalarni ekranda o'qing","O'yin"] })[S.t]||["Darsdamiz","Telefon kerak bo'lganda o'zi o'zgaradi","Ochiq dars"]; }
@@ -1642,7 +1669,7 @@ function prender(){
   if(S.t==="g_res"&&c){ const v=gameScore(me), F=FATE(v), n=exactN(me); return pset("res"+v,head+`<div class="big2 fate-${F.k}">${ICO(F.ic)}</div><h1 style="text-align:center">${c.nm} — ${F.t}!</h1><div class="res okk">${v} / 1000</div>
     <p style="text-align:center">7 moddadan <b style="color:var(--gold)">${n} tasini</b> aynan ${c.nm} kabi tanladingiz.</p><p style="text-align:center;margin-top:10px">${F.k==="up"?"Siz haqiqiy bosh buxgalter kabi qaror qildingiz!":F.k==="mid"?"Yaxshi, lekin ba'zi joyda tejash yoki sarflash noto'g'ri bo'ldi.":"Afsus — bu tanlovlar bilan kompaniya yopilardi. Qayerda xato bo'lganini oldingi ekrandan ko'ring."}</p>`); }
   if(S.t==="bq") return blitzP(S,head);
-  if(S.t==="br"){ const a=me.bq&&me.bq[S.i], ok=a&&a.a===ansOf(S.i), [r,n]=rankOf(p=>blitzTotal(p,pst,S.i));
+  if(S.t==="br"){ const a=ansV(me,S.i,pst), ok=a&&a.a===ansOf(S.i), [r,n]=rankOf(p=>blitzTotal(p,pst,S.i));
     return pset("br"+S.i,head+`<div class="hero ${ok?"win":"lose"}"><div class="hava">${AVI(me.av)}${r===1?`<span class="crown">${ICO("trophy")}</span>`:""}</div>
       <div class="verd">${ok?"To'g'ri!":a?"Noto'g'ri":"Ulgurmadingiz"}</div>${ok?`<div class="plus">+${blitzPts(me,S.i,pst)}</div>`:`<p class="hs">To'g'ri javob: <b>${esc(BQ[S.i].o[ansOf(S.i)])}</b></p>`}
       <div class="rank"><b>${r}-o'rin</b><span>${n} kishi ichida · ${blitzTotal(me,pst,S.i)} ball</span></div></div>`); }
@@ -1682,10 +1709,10 @@ function pick(id,j){ const it=ITEMS.find(i=>i.id===id); buyLocal[id]=j; Store.up
   const amt=it.pr[j]; const e=document.createElement("div"); e.className="entry"; e.innerHTML=amt?(it.dt?`${ICO("scroll")} <b>Dt</b> ${it.dt} ${usd(amt)}<br>${ICO("scroll")} <b>Kt</b> Bank hisobi ${usd(amt)}`:`${ICO("zax")} ${usd(amt)} zaxira sifatida bankda qoldi`):`Bu moddaga pul sarflanmadi`;
   $$(".entry").forEach(x=>x.remove()); document.body.appendChild(e); clearTimeout(entryT); entryT=setTimeout(()=>e.remove(),2600); prender(); }
 function confirmBuy(){ Store.update("players/"+PID,{buy:buyLocal,done:true}); }
-function blitzP(S,head){ const q=BQ[S.i], a=me.bq&&me.bq[S.i];
+function blitzP(S,head){ const q=BQ[S.i], a=ansV(me,S.i,pst);
   pset("bq"+S.i+(a?"a":""),head+(a?heroV("Javob qabul qilindi!","Natija katta ekranda ochiladi","Savol "+(S.i+1)+" / "+BQ.length):
     `${PENW}<div class="qno">Savol ${S.i+1} / ${BQ.length}</div><h1 class="qq">${esc(q.q)}</h1><div class="qbtns2">${q.o.map((o,j)=>`<button class="qb${j}" onclick="ansQ(${S.i},${j})"><span class="qi">${SHP(j)}</span><span class="qt2">${esc(o)}</span></button>`).join("")}</div>`)); }
-function ansQ(i,j){ if(me.bq&&me.bq[i]) return; Store.update("players/"+PID+"/bq",{[i]:{a:j,t:Store.now()}}); try{ navigator.vibrate&&navigator.vibrate(40); }catch(e){} }
+function ansQ(i,j){ if(ansV(me,i,pst)) return; Store.update("players/"+PID+"/bq",{[i]:{a:j,t:Store.now()}}); try{ navigator.vibrate&&navigator.vibrate(40); }catch(e){} }
 
 /* =====================================================================
    5) ISHGA TUSHIRISH
