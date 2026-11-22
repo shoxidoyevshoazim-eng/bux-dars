@@ -485,6 +485,15 @@ h1.warm{text-align:center;color:#f0c35a;animation:pop .6s cubic-bezier(.3,1.7,.5
 .penov .m{font:700 54px "Cinzel",serif;color:#ffd21f;margin:14px 0}.penov .s{color:#e9cfc8}
 .penw{margin:10px 0 4px;padding:8px 12px;border-radius:8px;background:rgba(160,40,25,.25);border:1px solid rgba(255,122,107,.45);color:#ffb4a8;font:600 13px var(--body);text-align:center}
 #roomlbl{display:none!important}
+.lurl b{color:var(--gold)}
+.resov{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7)}
+.resbox{width:min(720px,92vw);max-height:84vh;overflow:auto;padding:26px 28px;border-radius:14px;background:#120d06;border:1px solid rgba(240,195,90,.45);color:#f7f0e2;font:15px "Manrope",sans-serif}
+.resbox h3{font:700 28px "Cormorant Garamond",serif;color:#f0c35a;margin-bottom:14px}
+.resnow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:10px;background:rgba(240,195,90,.1);margin-bottom:14px}
+.resbox button{padding:8px 14px;margin-left:6px;border-radius:8px;border:1px solid rgba(240,195,90,.45);background:rgba(255,240,200,.06);color:#f0c35a;font:700 14px "Manrope",sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.resbox button .ic{width:16px;height:16px}
+.reslist>div{display:flex;align-items:center;gap:8px;padding:8px 4px;border-bottom:1px solid rgba(240,195,90,.15)}.reslist span{flex:1}
+.resnote{margin-top:12px;color:#bcae94;font-size:13px}.resx{margin:14px 0 0!important;float:right}
 .mwarn{display:inline-block;margin-top:18px;padding:8px 18px;border-radius:10px;background:rgba(160,40,25,.3);border:1px solid rgba(255,122,107,.6);color:#ffb4a8;font:600 24px var(--body)}
 /* boshqaruv paneli (oyna pastida, sahnadan tashqarida — kattalashmaydi) */
 #ctl{position:fixed;right:14px;bottom:14px;transform:translate(0,20px);display:flex;gap:8px;padding:8px;border-radius:16px;background:rgba(10,8,5,.82);
@@ -1008,10 +1017,12 @@ function hostBoot(){
     <button onclick="nav(-1)" title="Orqaga (←)">◀</button>
     <button class="nx" onclick="nav(1)" title="Keyingi (→)">Keyingi ▶</button>
     <button onclick="miniQR()" title="QR kod (kech kelganlar uchun)" id="cqr">QR</button>
+    <button onclick="copyLink()" title="Talabalar havolasini nusxalash (QR ishlamasa — Telegram'ga tashlang)">🔗</button>
+    <button onclick="openResults()" title="Natijalar: Excel, PDF va tarix (E)">${ICO("scroll")}</button>
     <button onclick="pickVideo()" title="Kirish videosini tanlash (M)" id="cvid"></button>
     <button onclick="pickMusic()" title="Yakun musiqasini tanlash (N)" id="cmus"></button>
     <button onclick="document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{})" title="To'liq ekran (F)">⛶</button>
-    <button onclick="if(confirm('Darsni boshidan (lobbidan) boshlaysizmi? Ballar saqlanib qoladi.')) enter(0)" title="Boshiga qaytish">↺</button>
+    <button onclick="resetAll()" title="Hammasini tozalab, boshidan boshlash">↺</button>
    </div>`;
   /* boshqaruv paneli: sichqoncha qimirlaganda chiqadi, 3 s dan keyin yashirinadi (lobbida doim ko'rinadi) */
   /* panel faqat sichqoncha qimirlaganda chiqadi (video paytida ham), 2,5 s da yashirinadi; klaviatura bosilsa darhol yashirinadi; kursor ham yashirinadi */
@@ -1032,6 +1043,17 @@ function hostBoot(){
       if(await tryKey(hk)){ lsx.setItem("bux_hk",hk); ov.remove(); hostStart(); } else { $("#pe").textContent="❌ PIN noto'g'ri"; inp.value=""; } };
   })();
 }
+/* ↺ — sinovdan keyin toza dars: barcha o'yinchilar, ballar, jarimalar, fonarlar o'chadi; dars lobbidan boshlanadi.
+   Telefonlar avtomatik "Darsga qo'shilish" sahifasiga qaytadi. Video va musiqa saqlanib qoladi. */
+function resetAll(){
+  const n=plist().length;
+  if(!confirm(`HAMMASINI TOZALASHMI?\n\n${n} ta o'yinchi, barcha ballar va natijalar o'chiriladi.\nDars lobbidan (QR) boshlanadi.\n\nKerak bo'lsa, avval E bilan natijalarni Excel'ga saqlang.`)) return;
+  try{ histSave(); }catch(e){} /* tozalashdan oldin natijalar tarixga yoziladi */
+  try{ fonarStop(); }catch(e){} clearInterval(qTimer); try{ SFX.stop(); }catch(e){}
+  demoBots=false; penSeen=null; players={};
+  st={k:0,s:0}; lsx.removeItem("bux_state_"+ROOM);
+  Store.set("players",null); pub(); render(true);
+  toast("✓ Hammasi tozalandi — dars boshidan"); }
 function ctlRefresh(){ const v=$("#cvid"), m=$("#cmus"), c=$("#ctl"); if(!v) return;
   v.innerHTML=ICO("film"); v.classList.toggle("need",!vidURL); m.innerHTML=ICO("music"); m.classList.toggle("need",!musURL);
   const mq=$("#miniqr"); if(mq&&!mq.classList.contains("hidden")){ $("#mcnt").textContent=plist().length+" kishi"; } }
@@ -1175,7 +1197,7 @@ const SUBS={}, LIVEV={};
 const VIEWS={
  lobby:()=>{ const url=joinURL(); setTimeout(()=>{ const q=$("#qr"); if(q&&window.QRCode) new QRCode(q,{text:url,width:468,height:468,correctLevel:QRCode.CorrectLevel.M}); else if(q) q.innerHTML='<div style="color:#000;font-size:28px;text-align:center;padding:20px">QR yuklanmadi<br>havolani yozing</div>'; },30);
    const short=(location.host+location.pathname).replace(/index\.html$/,"").replace(/\/$/,"");
-   return `<div class="lob"><div><div class="qrbox" id="qr"></div><div class="lroom"><span>Xona kodi</span><b>${ROOM}</b></div><div class="lurl">${esc(short)}</div></div>
+   return `<div class="lob"><div><div class="qrbox" id="qr"></div><div class="lroom"><span>Xona kodi</span><b>${ROOM}</b></div><div class="lurl">QR ishlamasa: <b>${esc(short)}</b> → kod: <b>${ROOM}</b></div></div>
    <div><div class="kick">Darsga qo'shiling</div><h2>Telefon kamerasini <span class="acc">QR kodga</span> qarating</h2>
    ${vidURL&&musURL?"":`<div class="mwarn">⚠ ${!vidURL?"Kirish videosi tanlanmagan (M)":""}${!vidURL&&!musURL?" · ":""}${!musURL?"Yakun musiqasi tanlanmagan (N)":""}</div>`}
    <div class="pcount" id="pc">${plist().length} kishi</div><div class="names" id="nm">${plist().map(p=>`<span>${AVI(p.av)}${esc(p.nm)}</span>`).join("")}</div>
@@ -1479,7 +1501,7 @@ LIVEV.br=S=>{ const ps=plist(), cnt=[0,0,0,0]; ps.forEach(p=>{ const a=p.bq&&p.b
       return `<div class="row" style="animation-delay:${.15+i*.12}s"><span class="r">${i+1}</span>${AVI(r.p.av)}<span class="n">${esc(r.p.nm)}</span>
         <span class="g">${got?"+"+got:""}</span><span class="d">${d>0?`<i class="up">▲${d}</i>`:d<0?`<i class="dn">▼${-d}</i>`:""}</span><b>${r.v}</b><em style="width:${Math.max(4,r.v/top*100)}%"></em></div>`; }).join(""); } };
 SUBS.final=()=>{ podium(false); confetti(); };
-SUBS.b_final=()=>{ podium(true); confetti(); };
+SUBS.b_final=()=>{ podium(true); confetti(); try{ histSave(); }catch(e){} };
 LIVEV.b_final=()=>podium(true);
 LIVEV.final=()=>podium();
 LIVEV.g_res=S=>SUBS.g_res(S,st.s);
@@ -1495,14 +1517,37 @@ function confetti(){ const cv=document.createElement("canvas"); cv.width=1920; c
   (function f(t){ x.clearRect(0,0,1920,1080); P.forEach(p=>{ p.y+=p.v; p.r+=.1; x.save(); x.translate(p.x+Math.sin(p.r)*20,p.y); x.rotate(p.r); x.fillStyle=p.c; x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); x.restore(); }); if(t-t0<6000) requestAnimationFrame(f); else cv.remove(); })(t0); }
 
 /* ---- natijalarni eksport (CSV) ---- */
-function exportCSV(){ const ps=plist(); if(!ps.length) return toast("O'yinchilar yo'q");
-  /* o'yin va blits ALOHIDA ustunlarda (aralashtirilmaydi); jarimalar, to'g'ri javoblar, fonarlar soni ham */
-  const up=revealedUpto(st), head=["#","Ism","Kompaniya","Sarflangan $","O'yin bali","Taqdir","Aynan topgan (7 dan)","Blits bali","Blits to'g'ri","Jarimalar","Fonarlar",...ITEMS.map(i=>i.nm)];
-  const rows=ps.map(p=>({p,t:gameScore(p)})).sort((a,b)=>b.t-a.t).map((r,i)=>{ const p=r.p, c=COMPANIES.find(c=>c.id===p.co);
+/* ---- NATIJALAR: Excel (CSV), PDF (chop etish) va TARIX (shu kompyuterda saqlanadi) ---- */
+const RES_HEAD=["#","Ism","Kompaniya","Sarflangan $","O'yin bali","Taqdir","Aynan topgan (7 dan)","Blits bali","Blits to'g'ri","Jarimalar","Fonarlar",...ITEMS.map(i=>i.nm)];
+function resRows(){ const ps=plist(), up=revealedUpto(st);
+  return ps.map(p=>({p,t:gameScore(p)})).sort((a,b)=>b.t-a.t).map((r,i)=>{ const p=r.p, c=COMPANIES.find(c=>c.id===p.co);
     const ok=BQ.filter((q,j)=>{ const a=p.bq&&p.bq[j]; return a&&a.a===ansOf(j); }).length;
-    return [i+1,p.nm,c?c.nm:"",spent(p.buy),r.t,FATE(r.t).t,exactN(p),blitzTotal(p,st,up),ok,Object.keys(p.pen||{}).join(" "),p.fc||0,...ITEMS.map(it=>p.buy&&p.buy[it.id]!=null?TIER[p.buy[it.id]]:"")]; });
-  const csv="﻿"+[head,...rows].map(r=>r.map(v=>{ v=String(v??""); return /[;"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }).join(";")).join("\r\n");
-  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"})); const d=new Date(); a.download=`Bosh_buxgalter_natijalar_${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}.csv`; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },1000); toast("✓ Natijalar yuklab olindi (CSV)"); }
+    return [i+1,p.nm,c?c.nm:"",spent(p.buy),r.t,FATE(r.t).t,exactN(p),blitzTotal(p,st,up),ok,Object.keys(p.pen||{}).length?Object.keys(p.pen).length+" ta":"",p.fc||0,...ITEMS.map(it=>p.buy&&p.buy[it.id]!=null?TIER[p.buy[it.id]]:"")]; }); }
+const fileDate=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}_${String(d.getHours()).padStart(2,"0")}-${String(d.getMinutes()).padStart(2,"0")}`;
+function exportCSV(rows,when){ rows=rows||resRows(); if(!rows.length) return toast("O'yinchilar yo'q");
+  const csv="﻿"+[RES_HEAD,...rows].map(r=>r.map(v=>{ v=String(v??""); return /[;"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }).join(";")).join("\r\n");
+  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"})); a.download=`Buxgalteriya_natijalar_${fileDate(when?new Date(when):new Date())}.csv`; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },1000); toast("✓ Excel (CSV) yuklab olindi"); }
+function exportPDF(rows,when){ rows=rows||resRows(); if(!rows.length) return toast("O'yinchilar yo'q"); const d=when?new Date(when):new Date();
+  const w=window.open("","_blank"); if(!w) return toast("Brauzer yangi oynani blokladi — ruxsat bering");
+  const cols=[0,1,2,4,5,6,7,8,9,10];
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Natijalar ${fileDate(d)}</title><style>body{font:13px Arial,sans-serif;margin:24px;color:#111}h1{font-size:20px;margin:0}p{color:#555;margin:4px 0 14px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #bbb;padding:5px 7px;text-align:left}th{background:#f2e6c8}tr:nth-child(even) td{background:#faf7ef}</style></head><body>
+    <h1>Buxgalteriya hisobi tamoyillari — ochiq dars natijalari</h1><p>${d.toLocaleString("uz-UZ")} · ${rows.length} talaba · "O'yin bali" — Bosh buxgalter o'yini (1000 dan), "Blits" — test (alohida)</p>
+    <table><tr>${cols.map(i=>`<th>${RES_HEAD[i]}</th>`).join("")}</tr>${rows.map(r=>`<tr>${cols.map(i=>`<td>${esc(String(r[i]??""))}</td>`).join("")}</tr>`).join("")}</table>
+    <script>setTimeout(()=>print(),400)<\/script></body></html>`); w.document.close(); }
+/* tarix: har tozalashdan oldin va dars oxirida avtomatik saqlanadi (shu brauzerda, 20 tagacha) */
+function histLoad(){ try{ return JSON.parse(lsx.getItem("bux_tarix")||"[]"); }catch(e){ return []; } }
+function histSave(){ const rows=resRows(); if(!rows.length) return; const h=histLoad(), id=st.sid||(st.sid=Date.now());
+  const rec={id,t:Date.now(),room:ROOM,n:rows.length,rows}; const i=h.findIndex(x=>x.id===id); if(i>=0) h[i]=rec; else h.unshift(rec);
+  try{ lsx.setItem("bux_tarix",JSON.stringify(h.slice(0,20))); }catch(e){} }
+function openResults(){ $$(".resov").forEach(x=>x.remove()); histSave(); const h=histLoad();
+  const o=document.createElement("div"); o.className="resov"; o.onclick=e=>{ if(e.target===o) o.remove(); };
+  o.innerHTML=`<div class="resbox"><h3>Natijalar va tarix</h3>
+    <div class="resnow"><b>Hozirgi dars</b> · ${plist().length} talaba<div><button onclick="exportCSV()">${ICO("scroll")} Excel</button><button onclick="exportPDF()">${ICO("scroll")} PDF</button></div></div>
+    <div class="reslist">${h.length?h.map((r,i)=>`<div><span>${new Date(r.t).toLocaleString("uz-UZ")} · ${r.n} talaba · xona ${esc(r.room)}</span><button onclick="exportCSV(histLoad()[${i}].rows,histLoad()[${i}].t)">Excel</button><button onclick="exportPDF(histLoad()[${i}].rows,histLoad()[${i}].t)">PDF</button></div>`).join(""):"<p>Hozircha tarix bo'sh</p>"}</div>
+    <p class="resnote">Tarix shu kompyuter brauzerida saqlanadi (↺ tozalashdan oldin ham avtomatik). PDF — chop etish oynasida "PDF sifatida saqlash" ni tanlang.</p>
+    <button class="resx" onclick="this.closest('.resov').remove()">Yopish</button></div>`;
+  document.body.appendChild(o); }
+function copyLink(){ const u=joinURL(); (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast("✓ Havola nusxalandi — Telegram guruhga tashlang"),()=>{ prompt("Havolani nusxalang:",u); }); }
 
 /* ---- sinov o'yinchilari (faqat DEMO) ---- */
 const BOTN=["Aziz","Malika","Jasur","Dilnoza","Bekzod","Nigora","Sardor","Zarina","Otabek","Kamola","Ulug'bek","Sevara"];
@@ -1549,7 +1594,7 @@ function phoneBoot(){
   if(!ROOM){ $("#root").innerHTML=`<div class="ph"><h1>Xona kodi</h1><p>Ekrandagi QR kodni skanerlang yoki xona kodini kiriting.</p><input class="inp" id="rk" placeholder="B1234" autocapitalize="characters"><button class="btn" onclick="location.search='?room='+document.getElementById('rk').value.trim().toUpperCase()">Kirish</button></div>`; return; }
   PID=lsx.getItem("bux_pid_"+ROOM); if(!PID){ PID="p"+Math.random().toString(36).slice(2,10); lsx.setItem("bux_pid_"+ROOM,PID); }
   Store=makeStore();
-  Store.on("players/"+PID,v=>{ me=v; prender(); });
+  Store.on("players/"+PID,v=>{ if(!v&&me){ buyLocal=null; fl={s:0}; view=""; } /* ↺ tozalashdan keyin — toza boshlash */ me=v; prender(); });
   Store.on("players",v=>{ allP=v||{}; markTaken(); });
   Store.on("state",v=>{ pst=v||{}; prender(); });
 }
