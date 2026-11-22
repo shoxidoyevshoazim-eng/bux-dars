@@ -1318,7 +1318,7 @@ function musPlay(at){ if(MUS_BC) MUS_BC.postMessage("stop"); if(Math.abs(MUS.cur
    Xohlagancha takrorlash mumkin (har surish = bitta fonar). Musiqa sahnaga kirganda boshlanadi; "Rahmat!" boshlovchi → bosganda chiqadi. */
 const MUS_LEN=68000, LANES=9, LORD=[0,4,8,2,6,1,5,3,7], CD_MS=0;
 let fz={on:false,seen:{},laneAt:Array(LANES).fill(0),q:[],busy:false,T:[],total:0};
-function fonarStop(){ const sg=$("#stage"); if(sg) sg.classList.remove("rahmat"); if(!fz.on) return; fz.on=false; fz.T.forEach(t=>{clearTimeout(t);clearInterval(t);}); fz.T=[]; fz.q=[]; fz.busy=false;
+function fonarStop(){ const sg=$("#stage"); if(sg) sg.classList.remove("rahmat"); MUS.loop=false; if(!fz.on) return; fz.on=false; fz.T.forEach(t=>{clearTimeout(t);clearInterval(t);}); fz.T=[]; fz.q=[]; fz.busy=false;
   let v=MUS.volume; const f=setInterval(()=>{ v=Math.max(0,v-.08); MUS.volume=v; if(!v){ clearInterval(f); MUS.pause(); } },80); }
 const lantEl=(cls)=>{ const l=document.createElement("div"); l.className="lantern "+cls; return l; };
 function skyLantern(nm,av){ if(fz.q.length>40) return; fz.q.push([nm,av]); if(!fz.busy) skyNext(); }
@@ -1346,8 +1346,9 @@ SUBS.fonar=(S,s)=>{ const first=!fz.on; fz.on=true;
   fz.seen={}; plist().forEach(p=>fz.seen[p.id]=p.fc||0); /* oldingi uchirilganlarni qayta uchirmaymiz */
   if(!MUS.src) MUS.src="yakun_musiqa.mp3"; /* lokal papkada index.html yonida bo'lsa ishlaydi; GitHub'da yo'q — N bilan tanlanadi */
   if(!st.ft) st.ft=Store.now(); const el=Store.now()-st.ft;
-  if(el<MUS_LEN-1500) musPlay(Math.max(0,el/1000));
-  if(el<MUS_LEN) fz.T.push(setTimeout(()=>{ let v=MUS.volume; const f=setInterval(()=>{ v=Math.max(0,v-.05); MUS.volume=v; if(!v){ clearInterval(f); MUS.pause(); } },200); fz.T.push(f); },Math.max(0,MUS_LEN-5000-el)));
+  /* musiqa fonarlar davomida TUGAMAYDI: aylanma (loop); faqat "Rahmat!" (→) bosilgandan keyin sekin so'nadi */
+  MUS.loop=true; const dur=MUS.duration&&isFinite(MUS.duration)?MUS.duration:0;
+  if(s<1) musPlay(dur?(el/1000)%dur:Math.max(0,el/1000));
   for(let i=0;i<3;i++) fz.T.push(setTimeout(skyAmbient,i*900));
   fz.T.push(setInterval(()=>{ if($$("#sky .lantern.amb").length<7) skyAmbient(); },2800)); };
 PHOTO.add("fonar");
