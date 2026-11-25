@@ -367,6 +367,8 @@ body.th-proj .track{height:3px;background:rgba(240,195,90,.2)}
 body.th-proj .track .fill{background:linear-gradient(90deg,#8a6421,var(--gold))}
 body.th-proj .dot{border-width:3px;background:#0a0805;border-color:rgba(240,195,90,.4)}
 #stage:has(#vid:not(.hidden)) #fx{display:none}
+#stage:has(#vid:not(.hidden))::before,#stage:has(#vid:not(.hidden))::after{display:none!important}
+#stage:has(#vid:not(.hidden)) > :not(#vid),#stage:has(#vid:not(.hidden)) > :not(#vid) *{animation-play-state:paused!important;backdrop-filter:none!important}
 .scorehint{font:500 28px var(--body);color:var(--mut);margin-top:6px}
 body.th-proj .rank .rrow{margin:10px 0;padding:6px 30px;font-size:46px}
 body.th-proj .rank .rrow .avi{width:66px;height:66px}
@@ -465,8 +467,8 @@ h1.warm{text-align:center;color:#f0c35a;animation:pop .6s cubic-bezier(.3,1.7,.5
 .pcd{display:none}.blz{position:absolute;right:50px;bottom:36px;display:flex;align-items:center;gap:12px;padding:10px 24px;border-radius:40px;background:rgba(12,9,4,.7);border:1px solid rgba(240,195,90,.35);font:500 28px var(--body);color:#f7f0e2;z-index:5}
 .blz:empty{display:none}.blz .avi{width:48px;height:48px}.blz b{color:#f0c35a}.blz .ic{width:30px;height:30px}
 /* Rahmat'ga silliq o'tish: fonarlar xiralashadi, yozuv tumandan chiqadi */
-#sky{transition:opacity 3s,filter 3s}
-#stage.rahmat #sky{opacity:.45;filter:blur(1.5px)}
+#sky{transition:opacity 3s}
+#stage.rahmat #sky{opacity:.4}
 #stage.rahmat .shade.full{background:rgba(0,0,0,.55)!important;transition:background 3s}
 .fbig{transition:opacity 3s ease,transform 3s ease,filter 3s ease;filter:blur(12px)}
 .fbig.in{filter:none}
@@ -1154,16 +1156,19 @@ function bgDust(){ const cv=$("#fx"),cx=cv.getContext("2d");
   const mk=()=>({x:Math.random()*1920,y:Math.random()*1080,r:.6+Math.random()*2.6,v:.08+Math.random()*.35,w:Math.random()*6.28,ws:.004+Math.random()*.01,a:.15+Math.random()*.55,t:Math.random()*6.28});
   const P=Array.from({length:110},mk); let on=true;
   (function loop(){ if(!document.body.classList.contains("th-proj")){ cx.clearRect(0,0,1920,1080); return bgDigits0(); }
+    if(vidPlaying()) return setTimeout(()=>requestAnimationFrame(loop),400);
+    if((loop.f=(loop.f||0)+1)%2) return requestAnimationFrame(loop); /* 30 fps yetarli — protsessor yengil */
     cx.clearRect(0,0,1920,1080);
     for(const p of P){ p.y-=p.v; p.w+=p.ws; p.t+=.03; p.x+=Math.sin(p.w)*.35; if(p.y<-10){ Object.assign(p,mk(),{y:1090}); }
       const al=p.a*(.55+.45*Math.sin(p.t)), g=cx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4);
       g.addColorStop(0,`rgba(255,214,140,${al})`); g.addColorStop(.35,`rgba(255,170,70,${al*.35})`); g.addColorStop(1,"rgba(255,150,40,0)");
       cx.fillStyle=g; cx.beginPath(); cx.arc(p.x,p.y,p.r*4,0,6.283); cx.fill(); }
     requestAnimationFrame(loop); })(); }
+function vidPlaying(){ const v=document.getElementById("vid"); return !!(v&&!v.classList.contains("hidden")&&!v.paused); }
 function bgDigits0(){ const cv=$("#fx"),cx=cv.getContext("2d"),sym="0123456789+−=%$".split("");
   const P=Array.from({length:60},()=>({x:Math.random()*1920,y:Math.random()*1080,v:.15+Math.random()*.5,s:18+Math.random()*30,c:sym[Math.random()*sym.length|0],a:.05+Math.random()*.12}));
   let fr=0, C1="#8fb4ff", C2="#f2c04d";
-  (function loop(){ if(fr++%60===0){ const cs=getComputedStyle(document.body); C1=cs.getPropertyValue("--mut").trim()||C1; C2=cs.getPropertyValue("--gold").trim()||C2; }
+  (function loop(){ if(vidPlaying()) return setTimeout(()=>requestAnimationFrame(loop),400); if(fr++%60===0){ const cs=getComputedStyle(document.body); C1=cs.getPropertyValue("--mut").trim()||C1; C2=cs.getPropertyValue("--gold").trim()||C2; }
     cx.clearRect(0,0,1920,1080); for(const p of P){ p.y-=p.v; if(p.y<-40){ p.y=1120; p.x=Math.random()*1920; } cx.globalAlpha=p.a*1.4; cx.fillStyle=/\d/.test(p.c)?C1:C2; cx.font=`600 ${p.s}px Segoe UI`; cx.fillText(p.c,p.x,p.y); } requestAnimationFrame(loop); })(); }
 
 /* ---- render ---- */
